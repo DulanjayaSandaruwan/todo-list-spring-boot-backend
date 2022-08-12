@@ -3,6 +3,8 @@ package com.todolist.todolistspringbootbackend.advisor;
 import com.todolist.todolistspringbootbackend.exception.DuplicateEmailException;
 import com.todolist.todolistspringbootbackend.exception.NotFoundException;
 import com.todolist.todolistspringbootbackend.exception.UnauthorizedAccessException;
+import org.modelmapper.ModelMapper;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -36,4 +38,8 @@ public class AppAdvisor {
         return nx.getMessage();
     }
 
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
 }
