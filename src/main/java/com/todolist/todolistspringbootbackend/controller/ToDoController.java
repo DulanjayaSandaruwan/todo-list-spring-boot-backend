@@ -26,25 +26,28 @@ public class ToDoController {
     public ToDoController(ToDoService toDoService) {
         this.toDoService = toDoService;
     }
+
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping(consumes = "application/json",produces = "application/json")
-    public ToDoDTO addToDo(@PathVariable String userId, @RequestBody @Valid ToDoDTO toDo, Errors errors){
-        if (errors.hasFieldErrors()){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,errors.getFieldErrors().get(0).getDefaultMessage());
+    @PostMapping(consumes = "application/json", produces = "application/json")
+    public ToDoDTO addToDo(@PathVariable String userId, @RequestBody @Valid ToDoDTO toDo, Errors errors) {
+        if (errors.hasFieldErrors()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, errors.getFieldErrors().get(0).getDefaultMessage());
         }
-        if(!userId.equals(toDo.getUserId()))
-            throw new ResponseStatusException(HttpStatus.CONFLICT,"User Id is mismatch");
+        if (!userId.equals(toDo.getUserId()))
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "User Id is mismatch");
         return toDoService.saveToDo(toDo);
 
     }
+
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping(path = "/{toDoId:\\d+}")
-    public void deleteToDo(@PathVariable String userId,@PathVariable int toDoId){
+    public void deleteToDo(@PathVariable String userId, @PathVariable int toDoId) {
         toDoService.deleteToDo(userId, toDoId);
 
     }
+
     @GetMapping(produces = "application/json")
-    public List<ToDoDTO> grtAllNotes(@PathVariable String userId){
+    public List<ToDoDTO> grtAllNotes(@PathVariable String userId) {
         return toDoService.getAllToDos(userId);
     }
 }
